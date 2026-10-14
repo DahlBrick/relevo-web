@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RELEVO · Puzles y aventura</title>
+    <meta name="description" content="RELEVO: Nilo, un pequeño robot de mantenimiento, debe llevar la última batería de Liria hasta su faro. Puzles de conexiones en un mundo de canales." />
+    <meta name="theme-color" content="#061113" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/shared/base.css" />
+    <link rel="stylesheet" href="/src/shared/nilo.css" />
+    <link rel="stylesheet" href="/src/home/home.css" />
+    <link rel="preload" as="image" href="/img/relato/medio-dia.webp" />
+    <link rel="preload" as="image" href="/img/relato/lejos-dia.webp" />
+  </head>
+  <body class="inicio">
+    <header class="nav" id="nav"></header>
+
+    <main>
+      <!-- ───────── Hero: el key art completo ───────── -->
+      <section class="hero" id="hero">
+        <picture class="hero__media">
+          <source type="image/webp" srcset="/img/keyart-960.webp 960w, /img/keyart.webp 1672w" sizes="100vw" />
+          <img class="hero__imagen" src="/img/keyart.jpg" width="1672" height="941" alt="RELEVO: Nilo entre la lava y el agua. Coming soon para PC Windows y Mac." fetchpriority="high" decoding="async" />
+        </picture>
+        <div class="hero__pie">
+          <p class="hero__lema">Una batería para abrir caminos y volver a conectar Liria.</p>
+          <div class="hero__acciones">
+            <button class="btn" type="button" data-teaser>▶ Ver el teaser</button>
+            <a class="btn btn--ghost" href="bitacora.html">Recorrer la bitácora 3D</a>
+          </div>
+          <a class="hero__seguir" href="#relato"><span class="hero__raton"></span>Descubre la historia</a>
+        </div>
+      </section>
+
+      <!-- ───────── Relato: escena 2D por capas, fijada mientras se desplaza ───────── -->
+      <section class="relato" id="relato" aria-label="La historia de RELEVO">
+        <div class="relato__escena" id="escena">
+          <div class="r-capa r-cielo"></div>
+          <div class="r-capa r-astros">
+            <span class="r-sol"></span>
+            <span class="r-luna"></span>
+            <span class="r-estrellas"></span>
+          </div>
+          <div class="r-capa r-pan r-nubes" data-capa="nubes"><img src="/img/relato/nubes.webp" alt="" decoding="async" /></div>
+          <div class="r-capa r-pan" data-capa="lejos">
+            <img src="/img/relato/lejos-dia.webp" alt="" decoding="async" />
+            <img class="r-noche" src="/img/relato/lejos-noche.webp" alt="" decoding="async" />
+            <span class="r-haz" id="haz-faro"><i></i><i></i></span>
+          </div>
+          <div class="r-capa r-aves" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="r-capa r-pan" data-capa="medio">
+            <img src="/img/relato/medio-dia.webp" alt="" decoding="async" />
+            <img class="r-noche" src="/img/relato/medio-noche.webp" alt="" decoding="async" />
+            <img class="r-puente" id="puente" src="/img/relato/puente.webp" alt="" decoding="async" />
+          </div>
+          <div class="r-nilo" id="relato-nilo" role="img" aria-label="Nilo camina por el muelle"><span></span><span class="r-noche"></span></div>
+          <div class="r-capa r-tinte"></div>
+          <div class="r-capa r-pan r-frente" data-capa="frente">
+            <img src="/img/relato/frente-dia.webp" alt="" decoding="async" />
+            <img class="r-noche" src="/img/relato/frente-noche.webp" alt="" decoding="async" />
+          </div>
+          <div class="r-capa r-luciernagas" id="luciernagas"></div>
+          <div class="r-vineta"></div>
+
+          <div class="relato__textos">
+            <article class="r-texto is-activo">
+              <p class="r-texto__num">01 / 05</p>
+              <h2>Liria se quedó a oscuras</h2>
+              <p>Una crecida cortó los caminos y la red eléctrica de Liria, una pequeña ciudad de canales y viveros. Desde entonces el faro no ilumina la ruta de los botes.</p>
+            </article>
+            <article class="r-texto">
+              <p class="r-texto__num">02 / 05</p>
+              <h2>Nilo, el último relevo</h2>
+              <p>Un pequeño robot de mantenimiento carga con la última batería portátil de la ciudad. No salta ni corre: piensa cada paso.</p>
+            </article>
+            <article class="r-texto">
+              <p class="r-texto__num">03 / 05</p>
+              <h2>Maia sabe por dónde empezar</h2>
+              <p>La vieja terminal del muelle conoce cada cable de Liria. Explica cada mecánica con tarjetas ilustradas y, si te atascas, te da una pista.</p>
+            </article>
+            <article class="r-texto">
+              <p class="r-texto__num">04 / 05</p>
+              <h2>Conecta, acciona, recupera</h2>
+              <p>La batería despliega puentes temporales; las palancas dejan pasarelas permanentes. Llegar al otro lado solo resuelve la mitad del problema: también hay que volver por la batería.</p>
+            </article>
+            <article class="r-texto">
+              <p class="r-texto__num">05 / 05</p>
+              <h2>El faro espera</h2>
+              <p>Tres tramos de canal separan a Nilo del faro. Cuando la última batería llegue a su cuna, Liria volverá a brillar sobre el agua.</p>
+            </article>
+          </div>
+          <div class="relato__progreso" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </section>
+
+      <!-- ───────── Niveles ───────── -->
+      <section class="seccion niveles" id="niveles">
+        <div class="cabecera revela">
+          <p class="kicker">Niveles</p>
+          <h2>Tres tramos de Liria</h2>
+          <p>Cada tramo añade una idea nueva sin cambiar la regla de fondo: una sola batería para todo el canal.</p>
+        </div>
+        <div class="niveles__grid">
+          <article class="nivel revela">
+            <div class="nivel__marco"><img src="/img/bitacora/04_nivel1_en_juego.jpg" alt="Nivel 1, Muelle de Cobre" loading="lazy" data-interior /></div>
+            <div class="nivel__info"><span>Nivel 1</span><h3>Muelle de Cobre</h3><p>Una base y un regreso: el ciclo completo.</p></div>
+          </article>
+          <article class="nivel revela">
+            <div class="nivel__marco"><img src="/img/bitacora/21_nivel2_patio_de_bombas.jpg" alt="Nivel 2, Patio de Bombas" loading="lazy" data-interior /></div>
+            <div class="nivel__info"><span>Nivel 2</span><h3>Patio de Bombas</h3><p>Dos bases, reserva de energía y cajas sobre placas.</p></div>
+          </article>
+          <article class="nivel revela">
+            <div class="nivel__marco"><img src="/img/etapas/e5.1.jpg" alt="Nivel 3, Faro de Liria" loading="lazy" data-interior /></div>
+            <div class="nivel__info"><span>Nivel 3</span><h3>Faro de Liria</h3><p>El destino: entregar la última batería al faro.</p></div>
+          </article>
+        </div>
+        <div class="proximo revela">
+          <div class="proximo__texto">
+            <p class="kicker">Próximamente</p>
+            <h3>La Ciénaga y la Forja</h3>
+            <p>Aguas turbias con faroles que apartan la niebla, y un río de lava con losas de basalto que emergen y se funden.</p>
+          </div>
+          <div class="proximo__media">
+            <img src="/img/portada/09_cienaga_faroles_ahogados.jpg" alt="La Ciénaga de los Faroles Ahogados" loading="lazy" data-velocidad="0.12" />
+            <img src="/img/portada/10_forja_de_ascuas.jpg" alt="La Forja de Ascuas" loading="lazy" data-velocidad="-0.12" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────── Teaser (YouTube) ───────── -->
+      <section class="teaser" id="teaser">
+        <div class="teaser__fondo" data-velocidad="0.25"></div>
+        <div class="seccion teaser__interior">
+          <div class="teaser__texto revela">
+            <p class="kicker">Teaser</p>
+            <h2>Nilo, entre la lava y el agua</h2>
+            <p>El primer avance de RELEVO. Dale play aquí mismo o ábrelo en YouTube.</p>
+            <a class="teaser__enlace" href="https://youtu.be/z1q6cUyIgEI" target="_blank" rel="noopener">Ver en YouTube ↗</a>
+          </div>
+          <div class="teaser__video revela" id="teaser-video">
+            <button class="teaser__fachada" type="button" aria-label="Reproducir el teaser de RELEVO">
+              <img src="/img/keyart-960.webp" srcset="/img/keyart-960.webp 960w, /img/keyart.webp 1672w" sizes="(max-width: 900px) 92vw, 60vw" alt="" loading="lazy" />
+              <span class="teaser__play"><svg viewBox="0 0 68 48" aria-hidden="true"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#e8792b"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+              <span class="teaser__marca">YouTube</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────── Cinemáticas ───────── -->
+      <section class="seccion cine" id="cine">
+        <div class="cabecera revela">
+          <p class="kicker">Cinemáticas</p>
+          <h2>Grabadas con el propio motor del juego</h2>
+        </div>
+        <div class="cine__grid">
+          <button class="cine__item revela" type="button" data-video="/video/05_cinematica_apagado.mp4" data-pie="Cómo se descarga y se apaga Nilo.">
+            <video src="/video/05_cinematica_apagado.mp4" poster="/img/poster_05_cinematica_apagado.jpg" muted loop playsinline preload="none"></video>
+            <span class="cine__pie">Nilo se apaga</span>
+          </button>
+          <button class="cine__item revela" type="button" data-video="/video/06_cinematica_cajas.mp4" data-pie="Empujar la caja sobre la placa de presión.">
+            <video src="/video/06_cinematica_cajas.mp4" poster="/img/poster_06_cinematica_cajas.jpg" muted loop playsinline preload="none"></video>
+            <span class="cine__pie">Cajas y placas</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ───────── Notas del desarrollador ───────── -->
+      <section class="notas" id="notas">
+        <div class="seccion">
+          <div class="cabecera revela">
+            <p class="kicker">Desde el taller</p>
+            <h2>Notas del desarrollador</h2>
+            <p>Lo que aprendimos construyendo RELEVO, contado por el equipo.</p>
+          </div>
+          <div class="notas__grid">
+            <div class="notas__col" data-velocidad="-0.06">
+              <article class="nota revela">
+                <p class="nota__meta">Nota 01 · Etapas 1 y 2</p>
+                <h3>Empezamos en Godot (y nos fuimos)</h3>
+                <p>El primer prototipo lo hicimos en Godot porque prometía rapidez en 2D. La lógica funcionó, pero coordinar batería, base, puente y palanca en un motor que no conocíamos nos frenó. Pasarnos a Unity fue la mejor decisión del proyecto.</p>
+              </article>
+              <article class="nota nota--ambar revela">
+                <p class="nota__meta">Nota 04 · Etapa 8</p>
+                <h3>Nilo tenía que poder apagarse</h3>
+                <p>La reserva de energía le dio tensión al Patio de Bombas. Probamos varias reglas y nos quedamos con la más clara: se gasta por distancia y, si llega a cero, el nivel se reinicia.</p>
+              </article>
+            </div>
+            <div class="notas__col" data-velocidad="0.08">
+              <article class="nota nota--turquesa revela">
+                <p class="nota__meta">Nota 02 · Etapa 7</p>
+                <h3>Los árboles salieron rojos</h3>
+                <p>Al importar los modelos de Quaternius, todo el follaje apareció rojo: las texturas no eran colores sino máscaras para un shader de pago. Usamos las hojas blancas y las teñimos con los verdes de la paleta.</p>
+              </article>
+              <article class="nota revela">
+                <p class="nota__meta">Nota 05 · Etapa 7</p>
+                <h3>Una tecla que se hunde</h3>
+                <p>La E del aviso de interacción se dibuja en dos capas para parecer una tecla física: invita con una pulsación suave y, cuando la presionas de verdad, se hunde y suelta una onda.</p>
+              </article>
+            </div>
+            <div class="notas__col" data-velocidad="-0.1">
+              <article class="nota revela">
+                <p class="nota__meta">Nota 03 · Etapa 7</p>
+                <h3>Regla de oro: no tocar las colisiones</h3>
+                <p>Todo el arte nuevo va encima de lo que ya funcionaba. El Nivel 1 terminó la mejora gráfica con los mismos 74 colliders con los que empezó.</p>
+              </article>
+              <article class="nota nota--coral revela">
+                <p class="nota__meta">Nota 06 · Etapa 9</p>
+                <h3>Lo que viene</h3>
+                <p>Mareas que tapan los caminos, condensadores que sostienen un puente unos segundos, una ciénaga con niebla y una forja de lava. Ya tenemos las maquetas; ahora toca convertirlas en niveles.</p>
+                <p class="nota__firma">— Equipo de RELEVO</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────── Bitácora ───────── -->
+      <section class="banda" id="bitacora">
+        <img class="banda__fondo" src="/img/portada/03_puente_ambar.jpg" alt="" data-velocidad="0.2" loading="lazy" />
+        <div class="banda__velo"></div>
+        <div class="banda__texto revela">
+          <p class="kicker">Bitácora de desarrollo</p>
+          <h2>Del prototipo 2D a la Beta 1.0, en un recorrido 3D.</h2>
+          <p>Nueve etapas contadas dentro del mundo de RELEVO. Desplázate y mira cómo el juego va ganando forma.</p>
+          <a class="btn" href="bitacora.html">Entrar a la bitácora</a>
+        </div>
+        <div class="banda__nilo" id="banda-nilo" aria-hidden="true"></div>
+      </section>
+    </main>
+
+    <footer class="pie">
+      <p class="pie__logo">RELEVO</p>
+      <nav class="pie__nav" aria-label="Pie de página">
+        <a href="juego.html">Juego</a>
+        <a href="historia.html">Historia</a>
+        <a href="comunidad.html">Comunidad</a>
+        <a href="bitacora.html">Bitácora</a>
+        <a href="https://youtu.be/z1q6cUyIgEI" target="_blank" rel="noopener">Teaser en YouTube ↗</a>
+      </nav>
+      <p class="pie__creditos">Modelos CC0 de <a href="https://kenney.nl" target="_blank" rel="noopener">Kenney</a> y <a href="https://quaternius.com" target="_blank" rel="noopener">Quaternius</a>. Fuentes Lilita One y Varela Round (OFL).</p>
+    </footer>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Video">
+      <button class="lightbox__close" id="lightbox-cerrar" type="button"><span class="tecla">Esc</span> Cerrar</button>
+      <figure class="lightbox__figure">
+        <div id="lightbox-media"></div>
+        <figcaption class="lightbox__caption" id="lightbox-pie"></figcaption>
+      </figure>
+    </div>
+
+    <script type="module" src="/src/home/home.js"></script>
+  </body>
+</html>

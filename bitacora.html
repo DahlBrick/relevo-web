@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bitácora · RELEVO</title>
+    <meta name="description" content="Recorrido interactivo por el desarrollo de RELEVO: del prototipo 2D en Godot a la Beta 1.0 en Unity." />
+    <meta name="theme-color" content="#061113" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/shared/base.css" />
+    <link rel="stylesheet" href="/src/bitacora/bitacora.css" />
+  </head>
+  <body class="bitacora">
+    <!-- Pantalla de carga -->
+    <div class="carga" id="carga" role="status" aria-live="polite">
+      <div class="carga__marca">
+        <svg class="carga__antena" viewBox="0 0 40 60" aria-hidden="true">
+          <line x1="20" y1="58" x2="20" y2="18" stroke="#c98f55" stroke-width="3" stroke-linecap="round" />
+          <circle cx="20" cy="12" r="7" fill="#35e0e6" />
+          <ellipse cx="20" cy="4" rx="12" ry="3" fill="none" stroke="#35e0e6" stroke-width="2" opacity="0.7" />
+        </svg>
+        <p class="carga__logo">RELEVO</p>
+      </div>
+      <div class="carga__bateria" aria-hidden="true">
+        <div class="carga__relleno" id="carga-relleno"></div>
+        <div class="carga__segmentos"></div>
+      </div>
+      <p class="carga__texto"><span id="carga-texto">Cargando la batería</span> <span id="carga-pct">0%</span></p>
+    </div>
+
+    <canvas class="mundo" id="mundo" aria-hidden="true"></canvas>
+
+    <header class="nav" id="nav"></header>
+
+    <!-- Riel de etapas -->
+    <nav class="riel" id="riel" aria-label="Etapas de la bitácora"></nav>
+
+    <!-- Reserva de la bitácora: se carga con el recorrido -->
+    <div class="reserva" aria-hidden="true">
+      <p class="reserva__etiqueta">Bitácora · <span id="reserva-etapa">Inicio</span></p>
+      <div class="reserva__barra" id="reserva-barra"></div>
+    </div>
+
+    <main class="historia" id="historia"></main>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Captura del desarrollo">
+      <button class="lightbox__close" id="lightbox-cerrar" type="button"><span class="tecla">Esc</span> Cerrar</button>
+      <figure class="lightbox__figure">
+        <div id="lightbox-media"></div>
+        <figcaption class="lightbox__caption" id="lightbox-pie"></figcaption>
+      </figure>
+    </div>
+
+    <script type="module" src="/src/bitacora/main.js"></script>
+  </body>
+</html>

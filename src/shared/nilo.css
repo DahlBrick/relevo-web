@@ -1,0 +1,197 @@
+/* Animaciones de Nilo en 2D (nilo-svg.js). */
+.nilo {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+/* Solo las piezas animadas usan su propia caja como referencia; aplicarlo a todo descolocaría los
+   transform="rotate(...)" del dibujo. */
+.nilo__cuerpo,
+.nilo__cabeza,
+.nilo__ojos,
+.nilo__pupilas,
+.nilo__cejas,
+.nilo__halo,
+.nilo__antena,
+.nilo__bufanda-cola,
+.nilo__brazo,
+.nilo__pierna {
+  transform-box: fill-box;
+}
+.nilo__cuerpo {
+  animation: nilo-respira 3.2s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+.nilo__cabeza {
+  animation: nilo-cabeza 6s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+.nilo__ojos {
+  animation: nilo-parpadeo 4.6s infinite;
+  transform-origin: center;
+}
+.nilo__pupilas {
+  animation: nilo-mira 7s ease-in-out infinite;
+}
+.nilo__cejas {
+  animation: nilo-cejas 6s ease-in-out infinite;
+}
+.nilo__halo {
+  animation: nilo-halo 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+.nilo__bombilla {
+  animation: nilo-bombilla 1.6s ease-in-out infinite;
+}
+.nilo__antena {
+  animation: nilo-antena 3.2s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+.nilo__bufanda-cola {
+  animation: nilo-bufanda 2.2s ease-in-out infinite;
+  transform-origin: 70% 0%;
+}
+.nilo--saluda .nilo__brazo--d {
+  animation: nilo-saludo 1.8s ease-in-out infinite;
+  transform-origin: 8% 92%;
+}
+
+/* Sin saludo, el brazo derecho cuelga junto al cuerpo. */
+.nilo:not(.nilo--saluda) .nilo__brazo--d {
+  transform-origin: 8% 92%;
+  transform: rotate(128deg);
+}
+
+/* Caminar: las piernas se alternan y el cuerpo rebota; se activa con .nilo--camina. */
+.nilo--camina .nilo__pierna--i {
+  animation: nilo-paso 0.7s ease-in-out infinite;
+  transform-origin: 50% 0%;
+}
+.nilo--camina .nilo__pierna--d {
+  animation: nilo-paso 0.7s ease-in-out infinite reverse;
+  transform-origin: 50% 0%;
+}
+.nilo--camina .nilo__cuerpo {
+  animation: nilo-rebote 0.35s ease-in-out infinite alternate;
+}
+.nilo--camina .nilo__brazo--i {
+  animation: nilo-balanceo 0.7s ease-in-out infinite;
+  transform-origin: 80% 10%;
+}
+
+@keyframes nilo-respira {
+  50% {
+    transform: translateY(-5px) scaleY(1.01);
+  }
+}
+@keyframes nilo-cabeza {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-3deg);
+  }
+  60% {
+    transform: rotate(2.5deg);
+  }
+}
+@keyframes nilo-parpadeo {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.08);
+  }
+}
+@keyframes nilo-mira {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-5px, -1px);
+  }
+  55% {
+    transform: translate(5px, 2px);
+  }
+  75% {
+    transform: translate(0, -3px);
+  }
+}
+@keyframes nilo-cejas {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  56% {
+    transform: translateY(0);
+  }
+}
+@keyframes nilo-halo {
+  50% {
+    transform: scale(1.12, 0.85);
+    opacity: 0.7;
+  }
+}
+@keyframes nilo-bombilla {
+  50% {
+    fill: #5ff4f8;
+  }
+}
+@keyframes nilo-antena {
+  50% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes nilo-bufanda {
+  50% {
+    transform: rotate(-9deg);
+  }
+}
+@keyframes nilo-saludo {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(16deg);
+  }
+  50% {
+    transform: rotate(-4deg);
+  }
+  75% {
+    transform: rotate(14deg);
+  }
+}
+@keyframes nilo-paso {
+  0%,
+  100% {
+    transform: rotate(14deg);
+  }
+  50% {
+    transform: rotate(-14deg);
+  }
+}
+@keyframes nilo-rebote {
+  to {
+    transform: translateY(-6px);
+  }
+}
+@keyframes nilo-balanceo {
+  50% {
+    transform: rotate(-12deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nilo * {
+    animation: none !important;
+  }
+}

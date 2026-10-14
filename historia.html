@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historia · RELEVO</title>
+    <meta name="description" content="Liria todavía guarda sus secretos. Historia de RELEVO llega muy pronto." />
+    <meta name="theme-color" content="#061113" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/shared/base.css" />
+    <link rel="stylesheet" href="/src/shared/nilo.css" />
+    <link rel="stylesheet" href="/src/pronto/pronto.css" />
+    <link rel="preload" as="image" href="/img/relato/medio-noche.webp" />
+  </head>
+  <body class="pronto pronto--historia" data-pagina="historia">
+    <header class="nav" id="nav"></header>
+
+    <main class="escena">
+      <div class="capa capa--cielo" data-prof="6"></div>
+      <div class="capa capa--astros" data-prof="10"><span class="luna"></span><span class="estrellas"></span></div>
+      <div class="capa capa--lejos" data-prof="18"><div class="foto foto--lejos"></div></div>
+      <div class="capa capa--brasas" data-prof="26"></div>
+      <div class="capa capa--luciernagas" data-prof="26"></div>
+      <div class="capa capa--medio" data-prof="34"><div class="foto foto--medio"></div></div>
+
+      <div class="pronto__contenido">
+        <p class="pronto__etiqueta">La historia · Próximamente</p>
+        <h1 class="pronto__titulo">Liria todavía guarda sus secretos</h1>
+        <div class="pronto__heroe" data-prof="-14">
+          <div class="cartel3d" id="cartel3d" aria-label="Coming soon: Nilo saluda sobre el cartel" role="img"></div>
+          <div class="pronto__plano">
+          <button class="pronto__nilo" id="nilo" type="button" aria-label="Tocar a Nilo"></button>
+          <div class="cartel" role="img" aria-label="Coming soon">
+            <svg viewBox="0 0 520 120" aria-hidden="true">
+              <path d="M14 34 L40 22 L92 26 L130 14 L210 20 L260 10 L330 18 L402 12 L470 22 L508 18 L500 46 L512 70 L498 96 L460 104 L392 98 L318 110 L240 102 L170 112 L98 104 L40 108 L8 96 L18 70 L4 50 Z" fill="#e8792b"/>
+              <path d="M30 40 L120 30 L250 26 L400 24 L490 34 L486 50 L380 44 L240 46 L110 50 L28 56 Z" fill="#ffb347" opacity=".45"/>
+              <path d="M22 96 L120 92 L260 94 L420 90 L496 92" stroke="#a3361a" stroke-width="5" fill="none" opacity=".6"/>
+            </svg>
+            <span>COMING SOON</span>
+          </div>
+          </div>
+        </div>
+        <p class="pronto__texto">La crecida, los canales apagados, los habitantes que esperan y los recuerdos que Nilo encuentra en el camino. La historia completa de Liria llega muy pronto.</p>
+        <div class="pronto__carga" aria-hidden="true">
+          <span class="pronto__bateria"><i style="--pct: 58%"></i></span>
+          <span>Cargando historia · 58%</span>
+        </div>
+        <div class="pronto__acciones">
+          <a class="btn btn--ghost" href="./">← Volver al inicio</a>
+          <a class="btn" href="bitacora.html">Ir a la bitácora</a>
+        </div>
+      </div>
+
+      <div class="capa capa--frente" data-prof="60"><div class="foto foto--frente"></div></div>
+    </main>
+
+    <script type="module" src="/src/pronto/pronto.js"></script>
+  </body>
+</html>

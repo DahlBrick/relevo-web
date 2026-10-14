@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Render de capas · RELEVO</title>
+    <style>
+      body { margin: 0; padding: 20px; background: #1a1f24; color: #e8dec6; font: 14px system-ui; }
+      #log { white-space: pre-wrap; font-family: ui-monospace, monospace; }
+      .vista { display: block; max-width: 100%; margin: 10px 0; background: repeating-conic-gradient(#333 0 25%, #444 0 50%) 0 0 / 20px 20px; }
+    </style>
+  </head>
+  <body>
+    <h1>Render de capas del relato</h1>
+    <p>Herramienta de desarrollo: renderiza las capas 2D de la portada con los modelos del juego y las guarda en <code>public/img/relato/</code> (requiere <code>node herramientas/guardar.mjs</code>).</p>
+    <div id="log"></div>
+    <div id="vistas"></div>
+    <script type="module" src="/src/herramientas/capas.js"></script>
+  </body>
+</html>
