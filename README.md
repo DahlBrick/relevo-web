@@ -18,6 +18,13 @@ npm run dev
 Luego abre http://127.0.0.1:5173/ (portada) o http://127.0.0.1:5173/bitacora.html (bitácora).
 `npm run build` genera la versión estática en `dist/`.
 
+## Publicación
+
+La web está publicada en **https://dahlbrick.github.io/relevo-web/** (GitHub Pages, repositorio
+`DahlBrick/relevo-web`). Cada `git push` a `main` la reconstruye y publica sola
+(`.github/workflows/pages.yml`, tarda ~1 minuto). En el build el sitio usa la base `/relevo-web/`
+(`vite.config.js`); en local, la raíz.
+
 ## Estructura
 
 - `src/home/escena.js`: capas dibujadas del relato de la portada; `home.js` las mueve con el scroll.
