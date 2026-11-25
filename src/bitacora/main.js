@@ -6,7 +6,7 @@ import { CAPITULOS } from './capitulos.js';
 import { cargarTodo } from './assets.js';
 import { crearCielo, ambienteEn } from './cielo.js';
 import { crearOceano, uAgua } from './agua.js';
-import { crearEstaciones, CENTROS, FOCOS } from './estaciones.js';
+import { crearEstaciones, CENTROS, FOCOS, FINAL, usarCamara } from './estaciones.js';
 import { crearAves, tickVida } from './vida.js';
 import { uViento } from './viento.js';
 import { railEn } from './camara.js';
@@ -14,6 +14,7 @@ import { crearPost } from './post.js';
 import { clicables } from './marcos.js';
 import { crearLightbox, TEASER_YT } from '../shared/lightbox.js';
 import { montarNav } from '../shared/nav.js';
+import { CALIDAD, pixelRatio, vigilarFPS } from '../shared/calidad.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,9 +28,12 @@ function html(strings, ...vals) {
 const esc = (s = '') => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 function miniatura(item, idx, cap) {
+  const mini = /\.webp$/.test(item.src) ? item.src.replace(/\.webp$/, '-640.webp') : item.src;
   const media = item.video
-    ? `<video src="${item.src}#t=1.5" muted preload="metadata" playsinline></video><span class="galeria__play"></span>`
-    : `<img src="${item.src}" alt="${esc(item.pie)}" loading="lazy" decoding="async" />`;
+    ? `<video src="${item.src}#t=1.5" muted preload="none" playsinline></video><span class="galeria__play"></span>`
+    : item.youtube
+      ? `<img src="${mini}" alt="${esc(item.pie)}" loading="lazy" decoding="async" /><span class="galeria__play galeria__play--yt"></span>`
+      : `<img src="${mini}" alt="${esc(item.pie)}" loading="lazy" decoding="async" />`;
   return `<button type="button" data-cap="${cap}" data-idx="${idx}" aria-label="Ver: ${esc(item.pie)}">${media}</button>`;
 }
 
@@ -42,7 +46,7 @@ function construirRelato() {
         <div class="intro__contenido">
           <p class="intro__etiqueta">Bitácora de desarrollo</p>
           <h1>RELEV<em>O</em></h1>
-          <p class="intro__sub">Cómo un prototipo 2D de cuadrados de colores se convirtió en un mundo que respira. Nueve etapas, del primer intento en Godot a la Beta 1.0.</p>
+          <p class="intro__sub">Cómo un prototipo 2D de cuadrados de colores se convirtió en un juego completo. Quince etapas, del primer intento en Godot a la versión 1.0.</p>
           <div class="rueda" id="rueda"><span class="rueda__raton"></span>${matchMedia('(pointer: coarse)').matches ? 'Desliza hacia arriba para empezar' : 'Gira la rueda para empezar'}</div>
         </div>
       </section>`;
@@ -51,20 +55,21 @@ function construirRelato() {
       return html`<section class="final" id="${c.id}" data-cap="${ci}" ${alto}>
         <div class="final__contenido">
           <p class="intro__etiqueta">Estado actual</p>
-          <p class="final__sello">RELEVO <span>BETA 1.0</span></p>
-          <p class="final__texto">De cuadrados de colores en Godot a un mundo vivo en Unity. La beta incluye el Muelle de Cobre y el Patio de Bombas con su arte final, a Nilo y a Maia animados y todas las mecánicas: batería, puentes, palancas, reserva de energía y cajas.</p>
+          <p class="final__sello">RELEVO <span>VERSIÓN 1.0</span></p>
+          <p class="final__texto">De cuadrados de colores en Godot a un juego completo en Unity. La Beta 1.0 trajo el arte final, a Nilo y a Maia animados y las mecánicas de batería, puentes, palancas, reserva y cajas. Después llegaron Liria, las cinemáticas, diez puertos más y el Eco del Apagón: RELEVO ya se juega de principio a fin.</p>
           <div class="final__datos">
-            <div class="dato"><b>9</b><span>etapas</span></div>
-            <div class="dato"><b>16</b><span>entradas de bitácora</span></div>
-            <div class="dato"><b>11</b><span>packs CC0</span></div>
-            <div class="dato"><b>2</b><span>niveles con arte final</span></div>
+            <div class="dato"><b>15</b><span>etapas</span></div>
+            <div class="dato"><b>13</b><span>puertos</span></div>
+            <div class="dato"><b>12</b><span>recuerdos</span></div>
+            <div class="dato"><b>4</b><span>finales</span></div>
           </div>
           <div class="final__acciones">
-            <button class="btn" type="button" id="ver-teaser">▶ Ver el teaser</button>
+            <a class="btn" href="juego.html"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Descargar y jugar</a>
+            <button class="btn btn--ghost" type="button" id="ver-teaser">▶ Ver el teaser</button>
             <a class="btn btn--ghost" href="./">Conocer el juego</a>
             <button class="btn btn--ghost" type="button" id="de-nuevo">↺ Recorrer de nuevo</button>
           </div>
-          <p class="final__plataformas">Próximamente · PC Windows · Mac</p>
+          <p class="final__plataformas">Disponible para PC Windows · En el navegador, próximamente</p>
         </div>
       </section>`;
     }
@@ -107,27 +112,28 @@ function construirRelato() {
 // ───────── Mundo 3D ─────────
 const lienzo = $('#mundo');
 const renderer = new THREE.WebGLRenderer({ canvas: lienzo, antialias: false, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+renderer.setPixelRatio(pixelRatio());
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = CALIDAD.sombraSuave ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
 
 const escena = new THREE.Scene();
 escena.fog = new THREE.Fog('#455761', 60, 260);
 const camara = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 2000);
+usarCamara(camara);
 const post = crearPost(renderer, escena, camara);
 
 const cielo = crearCielo();
 escena.add(cielo.malla);
-const oceano = crearOceano();
+const oceano = crearOceano({ segmentos: CALIDAD.oceano });
 escena.add(oceano);
 
 const hemi = new THREE.HemisphereLight('#bcd6e0', '#3a3026', 1);
 escena.add(hemi);
 const sol = new THREE.DirectionalLight('#ffe2b8', 2.6);
-sol.castShadow = true;
-sol.shadow.mapSize.set(2048, 2048);
+sol.castShadow = CALIDAD.sombras;
+sol.shadow.mapSize.set(CALIDAD.mapaSombra, CALIDAD.mapaSombra);
 Object.assign(sol.shadow.camera, { left: -32, right: 32, top: 32, bottom: -32, near: 1, far: 160 });
 sol.shadow.bias = -0.0004;
 sol.shadow.normalBias = 0.03;
@@ -151,8 +157,8 @@ let aves = [];
 function construirMundo() {
   estaciones = crearEstaciones();
   estaciones.lista.forEach((e) => escena.add(e.grupo));
-  const centrosAves = [1, 3, 5, 7, 8, 10].map((i) => CENTROS[i]);
-  aves.push(crearAves(26, centrosAves));
+  const centrosAves = [1, 3, 5, 7, 8, 10, 13, 14, FINAL].map((i) => CENTROS[i]);
+  aves.push(crearAves(CALIDAD.nivel === 'baja' ? 14 : 30, centrosAves));
   aves.push(crearAves(10, [new THREE.Vector3(-36, 0, -428), new THREE.Vector3(36, 0, -428)], { color: '#1a1a1e', radio: 14, altura: [6, 11] }));
   aves.forEach((a) => escena.add(a));
 }
@@ -212,7 +218,18 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 window.scrollTo(0, 0);
 montarNav('bitacora');
 construirRelato();
-const lightbox = crearLightbox({ alAbrir: () => lenis?.stop(), alCerrar: () => lenis?.start() });
+// Con el visor abierto el mundo no se ve: se deja de dibujar para no gastar batería.
+let visorAbierto = false;
+const lightbox = crearLightbox({
+  alAbrir: () => {
+    visorAbierto = true;
+    lenis?.stop();
+  },
+  alCerrar: () => {
+    visorAbierto = false;
+    lenis?.start();
+  },
+});
 let lenis = null;
 
 async function iniciar() {
@@ -356,9 +373,22 @@ function ladoDe(Tv) {
 }
 
 let tiempo = 0;
+// Si el equipo no llega a ~28 FPS los primeros segundos, baja un escalón: menos resolución, sin
+// sombras y, en el último escalón, sin bloom. El recorrido es el mismo.
+const tickFPS = vigilarFPS({
+  bajar() {
+    renderer.setPixelRatio(pixelRatio());
+    sol.castShadow = CALIDAD.sombras;
+    post.bloom.enabled = CALIDAD.bloom;
+    ajustar();
+  },
+});
 function bucle() {
   requestAnimationFrame(bucle);
-  fotograma(Math.min(reloj.getDelta(), 1 / 20));
+  const dt = Math.min(reloj.getDelta(), 1 / 20);
+  if (visorAbierto) return;
+  tickFPS();
+  fotograma(dt);
 }
 
 function fotograma(dt) {
@@ -425,7 +455,9 @@ function fotograma(dt) {
   const pixel = 1 - THREE.MathUtils.smoothstep(T, 1.8, 2.35);
   post.final.uniforms.uPixel.value = pixel * 0.78;
   post.final.uniforms.uTiempo.value = t;
-  post.bloom.strength = 0.45 + (T > 9 ? 0.35 : 0) + (T > 5.4 && T < 6.9 ? 0.15 : 0);
+  post.bloom.strength = 0.45 + ((T > 9 && T < 10) || T > 15 ? 0.35 : 0) + (T > 5.4 && T < 6.9 ? 0.15 : 0) + (T > 11 && T < 12.9 ? 0.2 : 0);
+  // Bandas de cine durante la etapa de las cinemáticas.
+  post.final.uniforms.uBandas.value = THREE.MathUtils.smoothstep(T, 10.85, 11.1) * (1 - THREE.MathUtils.smoothstep(T, 11.8, 12.05));
 
   actualizarHUD(T);
   post.composer.render();
@@ -448,6 +480,14 @@ window.addEventListener('resize', () => {
 });
 
 iniciar().catch((err) => {
+  // Sin WebGL (o si algo falla) el recorrido sigue: el relato y las capturas se leen igual.
   console.error(err);
-  $('#carga-texto').textContent = 'No se pudo cargar el mundo 3D';
+  $('#carga-texto').textContent = 'Este equipo no puede mostrar el mundo 3D: sigue el recorrido en 2D';
+  document.body.classList.add('sin-3d');
+  setTimeout(() => {
+    $('#carga').classList.add('is-hecha');
+    if (!lenis) iniciarScroll();
+    const sinMundo = () => actualizarHUD(tDesdeScroll(lenis ? lenis.animatedScroll : scrollY));
+    lenis?.on('scroll', sinMundo);
+  }, 1600);
 });

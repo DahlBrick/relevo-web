@@ -1,3 +1,4 @@
+import { CALIDAD } from '../shared/calidad.js';
 import * as THREE from 'three';
 import { instancia } from './assets.js';
 
@@ -94,6 +95,7 @@ const PUNTO = texturaPunto();
  * modo 'deriva': polen/luciérnagas que flotan; 'sube': brasas o humo que ascienden y reaparecen.
  */
 export function crearParticulas({ centro, cantidad = 200, caja = [30, 8, 30], color = '#ffd27a', tam = 0.18, modo = 'deriva', velocidad = 1, intensidad = 1.6, aditivo = true, opacidad = 1 }) {
+  cantidad = Math.max(8, Math.round(cantidad * CALIDAD.particulas));
   const geo = new THREE.BufferGeometry();
   const pos = new Float32Array(cantidad * 3);
   const sem = new Float32Array(cantidad);

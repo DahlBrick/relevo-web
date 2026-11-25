@@ -1,9 +1,18 @@
 // Contenido de la bitácora. Etapas 1–6: MATERIAL BITACORA. Etapas 7–9: docs/bitacora/BITACORA.md
-// del repositorio (rama mejora-grafica). Cada capítulo es una sección de scroll y una estación del mundo 3D.
+// del repositorio (rama mejora-grafica). Etapas 10–15: historial de commits desde el 13-oct, la
+// Entrada 17 de la bitácora y docs/narrativa (historia_final.md). Cada capítulo es una sección de
+// scroll y una estación del mundo 3D.
 
-const E = (n) => `${import.meta.env.BASE_URL}img/etapas/e${n}.jpg`;
-const B = (n) => `${import.meta.env.BASE_URL}img/bitacora/${n}.jpg`;
+const E = (n) => `${import.meta.env.BASE_URL}img/etapas/e${n}.webp`;
+const B = (n) => `${import.meta.env.BASE_URL}img/bitacora/${n}.webp`;
 const V = (n) => `${import.meta.env.BASE_URL}video/${n}.mp4`;
+const C = (n) => `${import.meta.env.BASE_URL}img/v1/${n}.webp`;
+const P = (n) => `${import.meta.env.BASE_URL}img/puertos/puerto${n}.webp`;
+const Y = (n) => `${import.meta.env.BASE_URL}img/videos/${n}.webp`;
+
+// Vídeos de YouTube (el reproductor solo se carga al pulsar el póster).
+export const YT_GAMEPLAY = 'EvTGAfRIXgc';
+export const YT_DEVLOG = 'aIs9ir1Icd4';
 
 export const CAPITULOS = [
   {
@@ -242,10 +251,180 @@ export const CAPITULOS = [
     ],
   },
   {
+    id: 'etapa-10',
+    numero: '10',
+    rail: 'Liria',
+    etiqueta: 'Etapa 10 · La ciudad · 16 de octubre',
+    titulo: 'Liria, modelada en Blender por script',
+    lado: 'der',
+    alto: 2.8,
+    entradilla:
+      'La ciudad dejó de ser un fondo. Un script de Blender construye Liria entera, con muelles y casas sobre pilotes, y la exporta a Unity con sus colisiones.',
+    parrafos: [
+      'construir_liria.py genera ocho bloques: el barrio residencial, el canal con su puente, el muelle industrial con grúa, el faro sobre su peñasco, el barrio de piedra, los palafitos con mercado y la bahía con barcas. Alrededor, islotes con árboles y una cordillera lejana para las cinemáticas.',
+      'Todo con un estilo de cómic propio: sombreado en bandas, sombra violeta con trama, tinta fina en los contornos, chapa ondulada y agua con espuma. El mismo día llegaron los documentos de narrativa: la biblia de Liria, la red narrativa, el mundo reactivo y el Acto I.',
+    ],
+    hitos: ['Ocho bloques de ciudad', 'Estilo cómic con tinta', 'Nilo ya no se atasca en los bordes'],
+    chips: ['Blender', 'Python', 'Estilo cómic', 'Narrativa'],
+    galeria: [
+      { src: C('liria_ciudad'), pie: 'Liria completa: el faro, las casas sobre pilotes y los muelles.' },
+      { src: C('liria_casas'), pie: 'Los tejados y los palafitos, dentro del juego.' },
+      { src: C('liria_noche'), pie: 'Liria de noche, en la cinemática del prólogo.' },
+    ],
+  },
+  {
+    id: 'etapa-11',
+    numero: '11',
+    rail: 'Cinemáticas',
+    etiqueta: 'Etapa 11 · Cinemáticas · 16 y 17 de octubre',
+    titulo: 'La noche del apagón y el Despertar',
+    lado: 'izq',
+    alto: 2.8,
+    entradilla:
+      'El juego empieza con una cinemática de 98 segundos dirigida plano a plano: Liria encendida, el apagón en cadena y un robot que despierta sin memoria.',
+    parrafos: [
+      'Una cámara de cine propia, con profundidad de campo, cámara en mano, grano y bandas 2,39:1. Toda la puesta en escena depende del tiempo, así que se puede revisar desde cualquier segundo. Las luces caen barrio a barrio al pulso de la canción, que se frena como una cinta, hasta que solo queda la luna.',
+      'Después, en primera persona, los párpados de Nilo se abren a trompicones. Se levanta rígido, como una máquina que arranca, y una radio se enciende sola. La canción provisional y los sonidos (estática, agua, relés) se generan por código.',
+    ],
+    cita: '«Unidad de memoria: 0 bytes.»',
+    datos: [
+      { valor: '98 s', etiqueta: 'de apertura' },
+      { valor: '17', etiqueta: 'planos' },
+      { valor: '2,39:1', etiqueta: 'formato de cine' },
+    ],
+    chips: ['Cinemática', 'Cámara de cine', 'Sonido por código'],
+    galeria: [
+      { src: C('apagon_faro'), pie: 'Prólogo: la noche en que Liria se apagó.' },
+      { src: C('apagon_calle'), pie: 'Ventanas, faros y farolas con luz cálida de noche.' },
+      { src: C('apagon_canal'), pie: 'Las luces de Liria se apagan barrio a barrio.' },
+      { src: C('apagon_montaje'), pie: 'Montaje del plano en el editor.' },
+      { src: C('despertar_muelle'), pie: 'Nilo despierta en el muelle, sin memoria.' },
+      { src: C('despertar_nilo'), pie: 'El Despertar: Nilo se pone en pie.' },
+      { src: C('maia_radio'), pie: 'Maia es una radio: ella habla, Nilo no.' },
+    ],
+  },
+  {
+    id: 'etapa-12',
+    numero: '12',
+    rail: 'Circuitos',
+    etiqueta: 'Etapa 12 · Trabajo en equipo · 17 de octubre',
+    titulo: 'Circuitos de energía y un cuaderno nuevo',
+    lado: 'der',
+    alto: 2.4,
+    entradilla:
+      'Dos ramas del equipo entraron el mismo día por pull request: un prototipo de circuitos de energía y el cuaderno de viaje rediseñado.',
+    parrafos: [
+      'El prototipo de circuitos prueba a llevar la energía por cables de cobre, turquesa y ámbar, con su palanca y las instrucciones en pantalla. Tras la primera revisión, la palanca pasó a una zona más central y se reordenó la interfaz.',
+      'El cuaderno de viaje se convirtió en un libro decorado, con un menú de exploración: cada recuerdo se guarda con su ilustración y su texto, puerto a puerto.',
+    ],
+    hitos: ['PR #1 · fajardo/mecanicas', 'PR #2 · fajardo/cuaderno'],
+    chips: ['Pull requests', 'Circuitos', 'Cuaderno de viaje'],
+    galeria: [
+      { src: C('cuaderno_recuerdo1'), pie: 'El cuaderno de viaje: Recuerdo 1, la primera canción.' },
+      { src: E('6.4'), pie: 'Antes: el cuaderno de la Beta 1.0.' },
+    ],
+  },
+  {
+    id: 'etapa-13',
+    numero: '13',
+    rail: 'Puertos 1-3',
+    etiqueta: 'Etapa 13 · Diseño de niveles · 4 de noviembre',
+    titulo: 'Los tres primeros puertos, rehechos',
+    lado: 'izq',
+    alto: 2.8,
+    entradilla:
+      'Con la historia nueva, el Muelle de Cobre, el Patio de Bombas y el Faro de Liria se rehicieron más completos y más difíciles.',
+    parrafos: [
+      'El Muelle tiene ahora tres orillas y el ciclo de base, puente y palanca se repite dos veces. El Patio suma una compuerta con caja, una reserva de 12 para la palanca y el muelle este, y un puente de placa. Los tres pasan al estilo cómic, con objetivos paso a paso.',
+      'El Faro estrena los condensadores: sostienen el puente 3,2 segundos después de retirar la batería. Si el puente se repliega con Nilo encima, cae al agua. Para comprobar que cada mapa tiene solución se escribió un solucionador.',
+    ],
+    datos: [
+      { valor: '5', etiqueta: 'de dificultad en el 2 y el 3' },
+      { valor: '3,2 s', etiqueta: 'aguanta un condensador' },
+      { valor: '12', etiqueta: 'casillas de reserva' },
+    ],
+    chips: ['Condensadores', 'Estilo cómic', 'Solucionador'],
+    galeria: [
+      { src: Y('gameplay'), youtube: YT_GAMEPLAY, pie: 'Gameplay en YouTube: el prólogo y los puertos 1 a 3.' },
+      { src: P(1), pie: 'Puerto 01 · Muelle de Cobre.' },
+      { src: P(2), pie: 'Puerto 02 · Patio de Bombas.' },
+      { src: P(3), pie: 'Puerto 03 · Faro de Liria.' },
+      { src: C('faro_condensadores'), pie: 'Condensadores: el puente aguanta un rato sin batería.' },
+      { src: C('muelle_rehecho'), pie: 'El Muelle de Cobre rehecho, con Maia.' },
+      { src: C('muelle_editor'), pie: 'Probando el nivel en el editor.' },
+      { src: C('faro_planta'), pie: 'El Faro visto desde arriba.' },
+      { src: C('faro_vigila'), pie: 'El faro vigila todo el puerto.' },
+    ],
+  },
+  {
+    id: 'etapa-14',
+    numero: '14',
+    rail: 'Puertos 4-12',
+    etiqueta: 'Etapa 14 · Nueve puertos más · 18 y 19 de noviembre',
+    titulo: 'De la Aduana de la Marea al Varadero de las Campanas',
+    lado: 'der',
+    alto: 2.8,
+    entradilla:
+      'En dos días el mapa pasó de tres puertos a doce, con mecánicas nuevas, decoración, las láminas de los recuerdos y música.',
+    parrafos: [
+      'Cada puerto tiene su entrada y su cierre, un recuerdo escondido y la voz de Maia, que se va rompiendo con interferencias a medida que avanza la noche. Los recuerdos cuentan la verdad en orden, salvo uno.',
+      'Llegaron dos mecánicas nuevas, el cuaderno se decoró con doce láminas ilustradas y entró la música. Después, la reserva de energía se extendió a los niveles 9 a 12.',
+    ],
+    datos: [
+      { valor: '9', etiqueta: 'puertos nuevos' },
+      { valor: '12', etiqueta: 'recuerdos' },
+      { valor: '2', etiqueta: 'mecánicas nuevas' },
+    ],
+    chips: ['Niveles', 'Recuerdos', 'Música'],
+    galeria: [
+      { src: P(4), pie: 'Puerto 04 · Aduana de la Marea.' },
+      { src: P(5), pie: 'Puerto 05 · Dársena del Torno.' },
+      { src: P(6), pie: 'Puerto 06 · Esclusa de las Dos Llaves.' },
+      { src: P(7), pie: 'Puerto 07 · Lonja de las Dos Voces.' },
+      { src: C('laminas_recuerdos'), pie: 'Las láminas de los recuerdos del cuaderno.' },
+      { src: P(8), pie: 'Puerto 08 · Archivo de la Frecuencia.' },
+      { src: P(9), pie: 'Puerto 09 · Astillero de la Maroma.' },
+      { src: P(10), pie: 'Puerto 10 · Casa de las Dos Guardias.' },
+      { src: P(11), pie: 'Puerto 11 · Mercado de la Sal.' },
+      { src: P(12), pie: 'Puerto 12 · Varadero de las Campanas.' },
+    ],
+  },
+  {
+    id: 'etapa-15',
+    numero: '15',
+    rail: 'Jefe final',
+    etiqueta: 'Etapa 15 · Juego completo · 24 de noviembre',
+    titulo: 'El Eco del Apagón y el juego de principio a fin',
+    lado: 'izq',
+    alto: 3.0,
+    entradilla:
+      'El puerto 13 es la Sala del Relevo: una figura enorme de tinta y cobre, el Eco del Apagón, se levanta en la subestación y va a por Nilo.',
+    parrafos: [
+      'El Eco persigue, embiste y lanza pulsos que repliegan los puentes. Solo las tres torres cargadas con la batería le hacen daño, y cada golpe baja la señal de Maia. El combate tiene música propia; al vencerlo amanece y los faroles se encienden desde el núcleo hacia fuera.',
+      'Ese mismo día RELEVO quedó completo: título nuevo sobre la Liria real, la narrativa de los 13 puertos, dos decisiones, cuatro finales, todas las cinemáticas y los créditos. Y la primera build de Windows, la versión 1.0.0.',
+    ],
+    datos: [
+      { valor: '13', etiqueta: 'puertos' },
+      { valor: '12', etiqueta: 'recuerdos' },
+      { valor: '2', etiqueta: 'decisiones' },
+      { valor: '4', etiqueta: 'finales' },
+    ],
+    chips: ['Jefe final', 'Cuatro finales', 'Build de Windows'],
+    galeria: [
+      { src: Y('devlog'), youtube: YT_DEVLOG, pie: 'Devlog en YouTube: Liria, cinemáticas y jefe final.' },
+      { src: P(13), pie: 'Puerto 13 · La Sala del Relevo.' },
+      { src: C('jefe_eco'), pie: 'Primer combate de jefe en RELEVO.' },
+      { src: C('jefe_combate'), pie: 'El Eco se mueve por todo el puerto: hay que leer sus ataques.' },
+      { src: C('jefe_golpe'), pie: 'Un golpe del Eco: la señal de Maia baja.' },
+      { src: C('jefe_victoria'), pie: 'Liria se enciende: jefe superado.' },
+      { src: C('cinematica_final'), pie: 'La cinemática final, sin spoilers.' },
+    ],
+  },
+  {
     id: 'beta',
     tipo: 'final',
     lado: 'izq',
-    rail: 'Beta 1.0',
+    rail: 'Versión 1.0',
     alto: 2.2,
   },
 ];

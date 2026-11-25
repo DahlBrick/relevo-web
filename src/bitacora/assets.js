@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
 import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
 import { PALETA } from './paleta.js';
@@ -19,10 +20,13 @@ const NATURE = ['CommonTree_1', 'CommonTree_2', 'CommonTree_3', 'Bush_Common', '
 // Las texturas *_C de Quaternius son máscaras para su shader de pago (la bitácora lo cuenta en la
 // Entrada 3: "árboles rojos"). Igual que en Unity, se usan las hojas blancas y se tiñen con la paleta.
 const HOJAS_BLANCAS = {
-  'Leaves_NormalTree_C.png': 'Leaves_NormalTree.png',
-  'Leaves_TwistedTree_C.png': 'Leaves_TwistedTree.png',
-  'Leaf_Pine_C.png': 'Leaf_Pine.png',
+  'Leaves_NormalTree_C.png': 'Leaves_NormalTree.webp',
+  'Leaves_TwistedTree_C.png': 'Leaves_TwistedTree.webp',
+  'Leaf_Pine_C.png': 'Leaf_Pine.webp',
 };
+
+// Los modelos van comprimidos con meshopt (herramientas/modelos.mjs).
+const nuevoGLTF = (manager) => new GLTFLoader(manager).setMeshoptDecoder(MeshoptDecoder);
 
 const modelos = new Map();
 const animaciones = new Map();
@@ -31,7 +35,7 @@ let texturasHojas = {};
 /** Carga ligera para páginas que solo necesitan a Nilo (y la celda de batería). */
 export async function cargarRobot() {
   const fbx = new FBXLoader();
-  const gltf = new GLTFLoader();
+  const gltf = nuevoGLTF();
   const [obj, celda] = await Promise.all([fbx.loadAsync(import.meta.env.BASE_URL + 'models/robot/Robot.fbx'), gltf.loadAsync(import.meta.env.BASE_URL + 'models/kenney/space/machine_barrel.glb')]);
   modelos.set('robot', obj);
   animaciones.set('robot', obj.animations);
@@ -42,7 +46,7 @@ export async function cargarRobot() {
 export async function cargarTodo(onProgreso) {
   const manager = new THREE.LoadingManager();
   manager.onProgress = (_url, hechos, total) => onProgreso?.(hechos / total);
-  const gltf = new GLTFLoader(manager);
+  const gltf = nuevoGLTF(manager);
   const fbx = new FBXLoader(manager);
   const tex = new THREE.TextureLoader(manager);
 
@@ -59,7 +63,7 @@ export async function cargarTodo(onProgreso) {
   }
   for (const nombre of NATURE) {
     tareas.push(
-      gltf.loadAsync(`${import.meta.env.BASE_URL}models/nature/${nombre}.gltf`).then((g) => {
+      gltf.loadAsync(`${import.meta.env.BASE_URL}models/nature/${nombre}.glb`).then((g) => {
         modelos.set(`nature/${nombre}`, g.scene);
       }),
     );
@@ -140,7 +144,7 @@ function prepararNaturaleza(raiz) {
       });
       if (!clave && /Leaves_NormalTree|Leaves_TwistedTree|Leaves_Pine/.test(nombre)) {
         // Si el nombre de la textura no llegó por userData, se resuelve por el nombre del material.
-        const porNombre = { Leaves_NormalTree: 'Leaves_NormalTree.png', Leaves_TwistedTree: 'Leaves_TwistedTree.png', Leaves_Pine: 'Leaf_Pine.png' }[nombre];
+        const porNombre = { Leaves_NormalTree: 'Leaves_NormalTree.webp', Leaves_TwistedTree: 'Leaves_TwistedTree.webp', Leaves_Pine: 'Leaf_Pine.webp' }[nombre];
         if (porNombre) nuevo.map = texturasHojas[porNombre];
       }
       conViento(nuevo);

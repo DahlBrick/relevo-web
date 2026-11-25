@@ -4,6 +4,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { CALIDAD } from '../shared/calidad.js';
 
 // Pase final: pixelado + posterizado (la etapa 2D de Godot), viñeta, grano y una leve aberración
 // cromática, como la cámara de cine de CinematicaMecanica.cs.
@@ -17,6 +18,7 @@ const PaseRelevo = {
     uGrano: { value: 0.035 },
     uAberracion: { value: 0.0012 },
     uFundido: { value: 0 },
+    uBandas: { value: 0 },
     uTinteFundido: { value: new THREE.Color('#061113') },
   },
   vertexShader: /* glsl */ `
@@ -24,7 +26,7 @@ const PaseRelevo = {
     void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
   `,
   fragmentShader: /* glsl */ `
-    uniform sampler2D tDiffuse; uniform vec2 uRes; uniform float uPixel, uTiempo, uVineta, uGrano, uAberracion, uFundido; uniform vec3 uTinteFundido;
+    uniform sampler2D tDiffuse; uniform vec2 uRes; uniform float uPixel, uTiempo, uVineta, uGrano, uAberracion, uFundido, uBandas; uniform vec3 uTinteFundido;
     varying vec2 vUv;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
     void main(){
@@ -51,13 +53,16 @@ const PaseRelevo = {
       col *= mix(1.0 - uVineta, 1.0, v);
       col += (hash(vUv * uRes + fract(uTiempo) * 100.0) - 0.5) * uGrano * (1.0 - uPixel);
       col = mix(col, uTinteFundido, uFundido);
+      // Bandas de cine 2,39:1 (la cámara de Apertura.cs).
+      float banda = uBandas * 0.5 * (1.0 - (uRes.x / uRes.y) / 2.39);
+      if (banda > 0.0 && (vUv.y < banda || vUv.y > 1.0 - banda)) col = vec3(0.0);
       gl_FragColor = vec4(col, 1.0);
     }
   `,
 };
 
 export function crearPost(renderer, scene, camera) {
-  const destino = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
+  const destino = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: CALIDAD.msaa });
   const composer = new EffectComposer(renderer, destino);
   composer.addPass(new RenderPass(scene, camera));
   // Un solo píxel NaN o infinito (p. ej. de un vértice degenerado) se expandiría como un bloque
@@ -78,6 +83,7 @@ export function crearPost(renderer, scene, camera) {
   );
   composer.addPass(sanear);
   const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.55, 0.6, 0.86);
+  bloom.enabled = CALIDAD.bloom;
   composer.addPass(bloom);
   // El pase propio va después del OutputPass para trabajar sobre la imagen ya en sRGB.
   composer.addPass(new OutputPass());

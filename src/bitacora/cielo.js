@@ -49,7 +49,7 @@ export function crearCielo() {
       }
     `,
   });
-  const malla = new THREE.Mesh(new THREE.SphereGeometry(900, 48, 24), mat);
+  const malla = new THREE.Mesh(new THREE.SphereGeometry(900, 32, 16), mat);
   malla.frustumCulled = false;
   malla.renderOrder = -10;
   return { malla, uniforms };
@@ -72,8 +72,23 @@ export const AMBIENTES = [
   // Mareas de Liria: luz dorada con el agua baja, como en su maqueta.
   A(9.62, { arriba: '#3c6f92', horizonte: '#f2b07a', abajo: '#24404a', sol: '#ffc078', solAlt: 0.12, solAz: 0.1, niebla: '#7d8c8e', cerca: 45, lejos: 210, profundo: '#123d3b', somero: '#2a7a72', luz: 2.4, amb: 0.9, estrellas: 0, luna: 0 }),
   A(9.85, { arriba: '#1e1012', horizonte: '#a1452a', abajo: '#1a0c0a', sol: '#ff7a3a', solAlt: 0.08, solAz: 0.3, niebla: '#4a2418', cerca: 30, lejos: 170, profundo: '#160e0c', somero: '#3a2018', luz: 1.8, amb: 0.6, estrellas: 0.3, luna: 0.2 }),
+  // Liria en estilo cómic: tarde dorada.
+  A(10.3, { arriba: '#4a8fbf', horizonte: '#f7d6a6', abajo: '#2e4650', sol: '#ffd9a0', solAlt: 0.34, solAz: -0.4, niebla: '#9fb7bb', cerca: 70, lejos: 320, profundo: '#13505a', somero: '#3aa0a0', luz: 3.0, amb: 1.05, estrellas: 0, luna: 0 }),
+  // La noche del apagón.
+  A(11.15, { arriba: '#081226', horizonte: '#1d3450', abajo: '#060c14', sol: '#9fb8ff', solAlt: 0.25, solAz: 0.6, niebla: '#0f1c2c', cerca: 35, lejos: 200, profundo: '#071a24', somero: '#123a44', luz: 0.9, amb: 0.5, estrellas: 1, luna: 1 }),
+  A(11.6, { arriba: '#0b1830', horizonte: '#2a4566', abajo: '#08101a', sol: '#b8ccff', solAlt: 0.3, solAz: 0.6, niebla: '#132438', cerca: 35, lejos: 200, profundo: '#08202a', somero: '#16444c', luz: 1.1, amb: 0.6, estrellas: 0.9, luna: 1 }),
+  // Circuitos: el azul verdoso del HUD.
+  A(12.3, { arriba: '#0e2a33', horizonte: '#2d6a6a', abajo: '#0a1c1f', sol: '#8ff3e6', solAlt: 0.3, solAz: 0.2, niebla: '#16383c', cerca: 40, lejos: 200, profundo: '#071d20', somero: '#1c5450', luz: 1.7, amb: 0.75, estrellas: 0.4, luna: 0 }),
+  // El Faro, de día.
+  A(13.3, { arriba: '#3f8fc4', horizonte: '#d8eeec', abajo: '#2a4a55', sol: '#fff1d6', solAlt: 0.6, solAz: -0.3, niebla: '#9cc4cc', cerca: 70, lejos: 320, profundo: '#1a6aa6', somero: '#5fd0f0', luz: 2.9, amb: 1.1, estrellas: 0, luna: 0 }),
+  // Puertos 4-12: la tarde avanza.
+  A(14.35, { arriba: '#3e6f9c', horizonte: '#f4b483', abajo: '#2a3e48', sol: '#ffc07a', solAlt: 0.16, solAz: 0.5, niebla: '#8f8f8c', cerca: 55, lejos: 260, profundo: '#113636', somero: '#286a66', luz: 2.5, amb: 0.9, estrellas: 0.05, luna: 0 }),
+  // La Sala del Relevo: noche roja.
+  A(15.25, { arriba: '#120a14', horizonte: '#5a1d18', abajo: '#0c0608', sol: '#ff7a4a', solAlt: 0.1, solAz: 0.2, niebla: '#24101a', cerca: 30, lejos: 170, profundo: '#100a0e', somero: '#2a1418', luz: 1.2, amb: 0.55, estrellas: 0.6, luna: 0.4 }),
+  // Al vencer al Eco, amanece.
+  A(15.95, { arriba: '#5a7fb0', horizonte: '#ffc0a0', abajo: '#2a3a48', sol: '#ffd0a0', solAlt: 0.08, solAz: -0.2, niebla: '#a99aa0', cerca: 55, lejos: 260, profundo: '#13404a', somero: '#3a8a8a', luz: 2.4, amb: 0.9, estrellas: 0.1, luna: 0 }),
   // Final: como el key art, lava a un lado, agua y luna al otro.
-  A(10.4, { arriba: '#0f1c2e', horizonte: '#c46a3c', abajo: '#0e1418', sol: '#ffa060', solAlt: 0.06, solAz: -0.9, niebla: '#2b2f3a', cerca: 45, lejos: 230, profundo: '#0b2a33', somero: '#1f6f73', luz: 1.9, amb: 0.65, estrellas: 1, luna: 1 }),
+  A(16.4, { arriba: '#0f1c2e', horizonte: '#c46a3c', abajo: '#0e1418', sol: '#ffa060', solAlt: 0.06, solAz: -0.9, niebla: '#2b2f3a', cerca: 45, lejos: 230, profundo: '#0b2a33', somero: '#1f6f73', luz: 1.9, amb: 0.65, estrellas: 1, luna: 1 }),
 ];
 
 const NUM = ['solAlt', 'solAz', 'cerca', 'lejos', 'luz', 'amb', 'estrellas', 'luna'];

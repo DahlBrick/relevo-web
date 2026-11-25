@@ -920,3 +920,231 @@
     background: linear-gradient(0deg, rgba(6, 17, 19, 0.95) 20%, rgba(6, 17, 19, 0.55) 100%);
   }
 }
+
+/* ───────── Añadidos v1.0 ───────── */
+/* Botón principal de descarga: el más visible de la página. */
+.btn--jugar {
+  --c: var(--turquesa-vivo);
+  color: #061113;
+}
+
+/* Carta de puertos: una tira que se desliza en horizontal. */
+.carta {
+  margin-top: clamp(40px, 6vw, 72px);
+}
+.carta__cabecera h3 {
+  margin: 0 0 18px;
+  font-size: clamp(22px, 2.6vw, 30px);
+}
+.carta__pista {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(220px, 24vw, 300px);
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 6px 2px 18px;
+  scrollbar-color: var(--cobre) transparent;
+}
+.puerto {
+  margin: 0;
+  scroll-snap-align: start;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--fondo-alto);
+  box-shadow: 0 0 0 1px var(--cobre-tenue), 0 18px 36px rgba(0, 0, 0, 0.35);
+}
+.puerto img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.puerto figcaption {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 10px 14px 12px;
+  font-size: 15px;
+}
+.puerto figcaption span {
+  font-family: var(--font-titulo);
+  color: var(--ambar);
+  font-size: 18px;
+}
+.puerto:last-child figcaption span {
+  color: var(--coral);
+}
+
+/* Vídeos de YouTube con fachada (no se carga nada de YouTube hasta pulsar). */
+.videos__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(22px, 3vw, 36px);
+  margin-top: 46px;
+}
+.video {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.video__marco {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 0 1px var(--cobre-tenue), 0 30px 70px rgba(0, 0, 0, 0.5);
+}
+.video__marco iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video__fachada {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background: none;
+}
+.video__fachada img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s;
+}
+.video__fachada:hover img,
+.video__fachada:focus-visible img {
+  transform: scale(1.04);
+  filter: brightness(0.85);
+}
+.video__fachada:hover .teaser__play {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+.video__fachada:focus-visible {
+  outline: 3px solid var(--ambar);
+  outline-offset: -3px;
+}
+.video__meta {
+  margin: 0 0 6px;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cobre);
+}
+.video__info h3 {
+  margin: 0 0 10px;
+  font-size: clamp(21px, 2.2vw, 26px);
+}
+.video__info > p:not(.video__meta) {
+  color: var(--tinta-tenue);
+  margin: 0 0 12px;
+}
+.video__capitulos {
+  margin: 0 0 12px;
+  border-radius: 10px;
+  background: rgba(10, 28, 31, 0.6);
+  box-shadow: inset 0 0 0 1px var(--cobre-tenue);
+}
+.video__capitulos summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-family: var(--font-titulo);
+  color: var(--crema);
+}
+.video__capitulos ol {
+  list-style: none;
+  margin: 0;
+  padding: 0 14px 12px;
+  display: grid;
+  gap: 4px;
+  font-size: 15px;
+  color: var(--tinta-tenue);
+}
+.video__capitulos b {
+  display: inline-block;
+  min-width: 46px;
+  color: var(--ambar);
+  font-weight: normal;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Llamada a descargar. */
+.jugar-cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  text-align: center;
+}
+.jugar-cta__fondo {
+  position: absolute;
+  inset: -15% 0;
+  width: 100%;
+  height: 130%;
+  object-fit: cover;
+  z-index: -2;
+}
+.jugar-cta__velo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, rgba(6, 17, 19, 0.55), rgba(6, 17, 19, 0.92) 75%);
+}
+.jugar-cta__interior {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.jugar-cta h2 {
+  max-width: 18ch;
+  margin: 0 0 18px;
+}
+.jugar-cta__datos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 26px;
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  color: var(--tinta-tenue);
+}
+.jugar-cta__datos b {
+  display: block;
+  font-family: var(--font-titulo);
+  font-size: clamp(34px, 4vw, 48px);
+  font-weight: normal;
+  line-height: 1;
+  color: var(--ambar);
+}
+.jugar-cta .hero__acciones {
+  justify-content: center;
+}
+.jugar-cta__nota {
+  margin: 18px 0 0;
+  font-size: 14px;
+  color: var(--tinta-tenue);
+}
+
+.nota__actualizacion {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 15px;
+  background: rgba(47, 182, 168, 0.14);
+  border-left: 3px solid #2fb6a8;
+}
+
+@media (max-width: 860px) {
+  .videos__grid {
+    grid-template-columns: 1fr;
+  }
+  .carta__pista {
+    grid-auto-columns: 72vw;
+  }
+}

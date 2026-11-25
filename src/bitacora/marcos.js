@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { PALETA } from './paleta.js';
+import { CALIDAD, texturaSegunCalidad } from '../shared/calidad.js';
 
 // Capturas del desarrollo como marcos en el mundo. Fusión 2D/3D: cuando su etapa no está activa,
 // el marco yace plano sobre el agua como una hoja; al llegar, se levanta girando sobre su canto.
@@ -45,15 +46,20 @@ export function crearMarco({ src, video = false, pie = '', ancho = 7 }) {
     tex.colorSpace = THREE.SRGBColorSpace;
     matImagen.map = tex;
     elVideo.addEventListener('loadedmetadata', () => ajustar(elVideo.videoWidth, elVideo.videoHeight));
-  } else {
-    cargador.load(src, (tex) => {
+  }
+  // La imagen se descarga la primera vez que su etapa se acerca (carga diferida), y en los equipos
+  // modestos se usa la versión de 640 px.
+  let cargada = video;
+  const cargar = () => {
+    cargada = true;
+    cargador.load(texturaSegunCalidad(src), (tex) => {
       tex.colorSpace = THREE.SRGBColorSpace;
-      tex.anisotropy = 8;
+      tex.anisotropy = CALIDAD.nivel === 'alta' ? 8 : 2;
       matImagen.map = tex;
       matImagen.needsUpdate = true;
       ajustar(tex.image.width, tex.image.height);
     });
-  }
+  };
 
   imagen.userData.marco = { src, video, pie };
   clicables.push(imagen);
@@ -67,6 +73,7 @@ export function crearMarco({ src, video = false, pie = '', ancho = 7 }) {
     imagen,
     /** f: 0 = plano sobre el agua (2D), 1 = de pie (3D). */
     levantar(f) {
+      if (f > 0.001 && !cargada) cargar();
       if (Math.abs(f - levantado) < 0.0005) return;
       levantado = f;
       const e = f < 0.5 ? 4 * f * f * f : 1 - Math.pow(-2 * f + 2, 3) / 2;

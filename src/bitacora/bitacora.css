@@ -696,3 +696,42 @@
     font-size: 16px;
   }
 }
+
+/* ───────── Añadidos v1.0 ───────── */
+/* Póster de los vídeos de YouTube: el reproductor solo se carga al pulsarlo. */
+.galeria__play--yt {
+  background: linear-gradient(0deg, rgba(6, 17, 19, 0.45), transparent 70%);
+}
+.galeria__play--yt::after {
+  border: 0;
+  width: 44px;
+  height: 31px;
+  border-radius: 9px;
+  background: #e5332a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 31'%3E%3Cpath d='M17 9l12 6.5L17 22z' fill='%23fff'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* Con 17 etapas el riel se compacta en pantallas bajas. */
+@media (max-height: 760px) {
+  .riel {
+    gap: 0;
+    padding: 6px 4px;
+  }
+  .riel__nodo {
+    padding: 3px 5px;
+  }
+}
+@media (max-height: 560px) {
+  .riel__nodo {
+    padding: 1px 5px;
+  }
+  .riel__punto {
+    width: 8px;
+    height: 8px;
+  }
+}
+/* Sin WebGL: el relato se lee sobre un fondo ilustrado. */
+body.sin-3d #mundo {
+  display: none;
+}
+body.sin-3d {
+  background: #0a1c1f url('/img/keyart-960.webp') center / cover fixed;
+}

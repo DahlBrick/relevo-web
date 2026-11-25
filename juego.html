@@ -3,57 +3,131 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Juego · RELEVO</title>
-    <meta name="description" content="Las mecánicas se están armando. Juego de RELEVO llega muy pronto." />
+    <title>Jugar · RELEVO</title>
+    <meta name="description" content="Descarga RELEVO 1.0 gratis para Windows: 13 puertos, 12 recuerdos y 4 finales. Pronto también en el navegador." />
     <meta name="theme-color" content="#061113" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/src/shared/base.css" />
     <link rel="stylesheet" href="/src/shared/nilo.css" />
     <link rel="stylesheet" href="/src/pronto/pronto.css" />
+    <link rel="stylesheet" href="/src/jugar/jugar.css" />
     <link rel="preload" as="image" href="/img/relato/medio-noche.webp" />
   </head>
-  <body class="pronto pronto--juego" data-pagina="juego">
+  <body class="pronto pronto--juego jugar" data-pagina="juego">
     <header class="nav" id="nav"></header>
 
-    <main class="escena">
-      <div class="capa capa--cielo" data-prof="6"></div>
-      <div class="capa capa--astros" data-prof="10"><span class="luna"></span><span class="estrellas"></span></div>
-      <div class="capa capa--lejos" data-prof="18"><div class="foto foto--lejos"></div></div>
-      <div class="capa capa--brasas" data-prof="26"></div>
-      <div class="capa capa--luciernagas" data-prof="26"></div>
-      <div class="capa capa--medio" data-prof="34"><div class="foto foto--medio"></div></div>
+    <main>
+      <section class="escena" aria-labelledby="jugar-titulo">
+        <div class="capa capa--cielo" data-prof="6"></div>
+        <div class="capa capa--astros" data-prof="10"><span class="luna"></span><span class="estrellas"></span></div>
+        <div class="capa capa--lejos" data-prof="18"><div class="foto foto--lejos"></div></div>
+        <div class="capa capa--brasas" data-prof="26"></div>
+        <div class="capa capa--luciernagas" data-prof="26"></div>
+        <div class="capa capa--medio" data-prof="34"><div class="foto foto--medio"></div></div>
 
-      <div class="pronto__contenido">
-        <p class="pronto__etiqueta">El juego · Próximamente</p>
-        <h1 class="pronto__titulo">Las mecánicas se están armando</h1>
-        <div class="pronto__heroe" data-prof="-14">
-          <div class="cartel3d" id="cartel3d" aria-label="Coming soon: Nilo saluda sobre el cartel" role="img"></div>
-          <div class="pronto__plano">
-          <button class="pronto__nilo" id="nilo" type="button" aria-label="Tocar a Nilo"></button>
-          <div class="cartel" role="img" aria-label="Coming soon">
-            <svg viewBox="0 0 520 120" aria-hidden="true">
-              <path d="M14 34 L40 22 L92 26 L130 14 L210 20 L260 10 L330 18 L402 12 L470 22 L508 18 L500 46 L512 70 L498 96 L460 104 L392 98 L318 110 L240 102 L170 112 L98 104 L40 108 L8 96 L18 70 L4 50 Z" fill="#e8792b"/>
-              <path d="M30 40 L120 30 L250 26 L400 24 L490 34 L486 50 L380 44 L240 46 L110 50 L28 56 Z" fill="#ffb347" opacity=".45"/>
-              <path d="M22 96 L120 92 L260 94 L420 90 L496 92" stroke="#a3361a" stroke-width="5" fill="none" opacity=".6"/>
-            </svg>
-            <span>COMING SOON</span>
+        <div class="pronto__contenido">
+          <p class="pronto__etiqueta">Versión 1.0 · Gratis</p>
+          <h1 class="pronto__titulo" id="jugar-titulo">Descarga RELEVO y juega</h1>
+          <div class="pronto__heroe" data-prof="-14">
+            <div class="cartel3d" id="cartel3d" data-texto="¡A JUGAR!" aria-label="¡A jugar! Nilo saluda sobre el cartel" role="img"></div>
+            <div class="pronto__plano">
+              <button class="pronto__nilo" id="nilo" type="button" aria-label="Tocar a Nilo"></button>
+              <div class="cartel" role="img" aria-label="¡A jugar!">
+                <svg viewBox="0 0 520 120" aria-hidden="true">
+                  <path d="M14 34 L40 22 L92 26 L130 14 L210 20 L260 10 L330 18 L402 12 L470 22 L508 18 L500 46 L512 70 L498 96 L460 104 L392 98 L318 110 L240 102 L170 112 L98 104 L40 108 L8 96 L18 70 L4 50 Z" fill="#e8792b"/>
+                  <path d="M30 40 L120 30 L250 26 L400 24 L490 34 L486 50 L380 44 L240 46 L110 50 L28 56 Z" fill="#ffb347" opacity=".45"/>
+                  <path d="M22 96 L120 92 L260 94 L420 90 L496 92" stroke="#a3361a" stroke-width="5" fill="none" opacity=".6"/>
+                </svg>
+                <span>¡A JUGAR!</span>
+              </div>
+            </div>
           </div>
+          <p class="pronto__texto">Nilo despierta sin memoria en una Liria a oscuras. Lleva la batería de puerto en puerto, recupera los doce recuerdos y decide cómo termina la noche. El juego completo, de principio a fin.</p>
+          <div class="pronto__carga" aria-hidden="true">
+            <span class="pronto__bateria"><i style="--pct: 100%"></i></span>
+            <span>Batería cargada · 100%</span>
           </div>
+
+          <!-- Botón principal según el dispositivo: en Windows, la descarga; en el resto, el navegador. -->
+          <div class="jugar__acciones" id="acciones">
+            <a class="btn btn--jugar" id="boton-windows" href="https://github.com/DahlBrick/RelevoZIP6/releases/latest/download/RELEVO-Windows.zip" download>
+              <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Descargar para Windows <small>ZIP · 56 MB</small>
+            </a>
+            <a class="btn btn--ghost" id="boton-navegador" href="#navegador">
+              <span aria-hidden="true">▶</span> Jugar en el navegador <small>Próximamente</small>
+            </a>
+          </div>
+          <p class="jugar__aviso" id="aviso-dispositivo" hidden></p>
+          <p class="jugar__versiones"><a href="https://github.com/DahlBrick/RelevoZIP6/releases" target="_blank" rel="noopener">Ver todas las versiones ↗</a></p>
         </div>
-        <p class="pronto__texto">Aquí vas a encontrar todo sobre cómo se juega RELEVO: la batería, los puentes eléctricos, las palancas, la reserva de energía de Nilo y las cajas sobre placas. Mientras tanto, mira cómo se construyó en la bitácora.</p>
-        <div class="pronto__carga" aria-hidden="true">
-          <span class="pronto__bateria"><i style="--pct: 72%"></i></span>
-          <span>Cargando juego · 72%</span>
+
+        <div class="capa capa--frente" data-prof="60"><div class="foto foto--frente"></div></div>
+      </section>
+
+      <section class="jugar__detalles" aria-label="Cómo descargar y jugar">
+        <div class="jugar__rejilla">
+          <article class="tarjeta" id="windows">
+            <p class="tarjeta__kicker">PC · Windows</p>
+            <h2>Descarga para Windows</h2>
+            <dl class="tarjeta__datos">
+              <div><dt>Archivo</dt><dd>RELEVO-Windows.zip · 56 MB</dd></div>
+              <div><dt>Descomprimido</dt><dd>156 MB</dd></div>
+              <div><dt>Versión</dt><dd>1.0.0</dd></div>
+            </dl>
+            <h3>Requisitos</h3>
+            <ul class="tarjeta__lista">
+              <li>Windows 10 u 11 de 64 bits</li>
+              <li>Tarjeta gráfica con DirectX 11 o 12</li>
+              <li>Unos 200 MB libres en disco</li>
+              <li>Teclado (WASD o flechas)</li>
+            </ul>
+            <h3>Cómo se instala</h3>
+            <ol class="tarjeta__pasos">
+              <li><b>Descarga</b> el archivo RELEVO-Windows.zip.</li>
+              <li><b>Descomprímelo</b>: clic derecho → «Extraer todo…».</li>
+              <li>Abre la carpeta <b>RELEVO</b> y haz doble clic en <b>RELEVO.exe</b>.</li>
+            </ol>
+            <div class="tarjeta__nota">
+              <p><b>¿Windows muestra «Windows protegió su PC»?</b></p>
+              <p>Es SmartScreen: aparece porque el ejecutable no está firmado con un certificado de pago, no porque tenga nada malo. Pulsa <b>«Más información»</b> y después <b>«Ejecutar de todas formas»</b>.</p>
+            </div>
+            <a class="btn btn--jugar" href="https://github.com/DahlBrick/RelevoZIP6/releases/latest/download/RELEVO-Windows.zip" download><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Descargar RELEVO-Windows.zip</a>
+          </article>
+
+          <article class="tarjeta tarjeta--pronto" id="navegador">
+            <p class="tarjeta__kicker">Móvil · Tablet · Mac · Linux · PC</p>
+            <h2>Jugar en el navegador</h2>
+            <span class="sello">Próximamente</span>
+            <p>Estamos preparando una versión web de RELEVO que se abrirá aquí mismo, a pantalla completa y sin instalar nada. En el móvil y la tablet tendrá controles táctiles: una cruceta para moverse y botones para interactuar, abrir el cuaderno, pausar y reiniciar.</p>
+            <p>Mientras tanto, desde un Mac, Linux o el móvil puedes ver el gameplay de los primeros puertos o recorrer la bitácora 3D.</p>
+            <div class="tarjeta__acciones">
+              <a class="btn btn--ghost" href="https://youtu.be/EvTGAfRIXgc" target="_blank" rel="noopener">▶ Ver el gameplay ↗</a>
+              <a class="btn btn--ghost" href="bitacora.html">Recorrer la bitácora 3D</a>
+            </div>
+          </article>
+
+          <article class="tarjeta tarjeta--controles">
+            <p class="tarjeta__kicker">Controles</p>
+            <h2>Así se juega</h2>
+            <ul class="controles">
+              <li><span class="teclas"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span> o flechas · mover a Nilo</li>
+              <li><span class="teclas"><kbd>E</kbd></span> Interactuar · coger y dejar la batería</li>
+              <li><span class="teclas"><kbd>Tab</kbd></span> Cuaderno de viaje</li>
+              <li><span class="teclas"><kbd>Esc</kbd></span> Pausa</li>
+              <li><span class="teclas"><kbd>R</kbd></span> Reiniciar el puerto</li>
+              <li><span class="teclas"><kbd>Espacio</kbd><kbd>Enter</kbd></span> Confirmar en menús y diálogos</li>
+            </ul>
+            <p class="tarjeta__pie">13 puertos · 12 recuerdos · 2 decisiones · 4 finales</p>
+          </article>
         </div>
-        <div class="pronto__acciones">
+
+        <div class="pronto__acciones jugar__volver">
           <a class="btn btn--ghost" href="./">← Volver al inicio</a>
           <a class="btn" href="bitacora.html">Ir a la bitácora</a>
         </div>
-      </div>
-
-      <div class="capa capa--frente" data-prof="60"><div class="foto foto--frente"></div></div>
+      </section>
     </main>
 
-    <script type="module" src="/src/pronto/pronto.js"></script>
+    <script type="module" src="/src/jugar/jugar.js"></script>
   </body>
 </html>

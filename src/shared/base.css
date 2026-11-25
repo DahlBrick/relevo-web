@@ -435,3 +435,19 @@ html.menu-abierto {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* "Jugar" en el menú: enlace destacado hacia la descarga. */
+.nav__links a.nav__jugar:not([aria-current='page']) {
+  color: var(--turquesa-vivo);
+  box-shadow: inset 0 0 0 1px rgba(79, 227, 208, 0.45);
+}
+.nav__links a.nav__jugar::before,
+.nav__panel a.nav__jugar::before {
+  content: '▶ ';
+  font-size: 0.8em;
+}
+.icono {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+}

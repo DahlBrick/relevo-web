@@ -2,9 +2,10 @@
 
 Sitio local del juego RELEVO:
 
-- `index.html`: portada con el key art, relato 2D por capas (parallax), niveles, teaser de YouTube, cinemáticas y notas del desarrollador.
-- `bitacora.html`: la **Bitácora 3D**, un recorrido con la rueda del mouse del prototipo 2D en Godot a la Beta 1.0.
-- `juego.html`, `historia.html`, `comunidad.html`: páginas "Coming soon" con Nilo animado.
+- `index.html`: portada con el key art, relato 2D por capas (parallax), los 13 puertos, teaser y vídeos de YouTube (gameplay y devlog), cinemáticas y notas del desarrollador.
+- `bitacora.html`: la **Bitácora 3D**, un recorrido con la rueda del mouse en 15 etapas, del prototipo 2D en Godot a la versión 1.0.
+- `juego.html`: **Jugar / Descargar**. Descarga para Windows desde GitHub Releases (`DahlBrick/RelevoZIP6`, archivo `RELEVO-Windows.zip`); la versión para el navegador figura como "Próximamente". En Windows el botón principal es la descarga; en el resto, el navegador.
+- `historia.html`, `comunidad.html`: páginas "Coming soon" con Nilo animado.
 
 ## Abrir en local
 
@@ -24,6 +25,25 @@ La web está publicada en **https://dahlbrick.github.io/relevo-web/** (GitHub Pa
 `DahlBrick/relevo-web`). Cada `git push` a `main` la reconstruye y publica sola
 (`.github/workflows/pages.yml`, tarda ~1 minuto). En el build el sitio usa la base `/relevo-web/`
 (`vite.config.js`); en local, la raíz.
+
+### Nueva versión del juego
+
+1. Comprime `Builds/Windows` del repo del juego como `RELEVO-Windows.zip` (con una carpeta `RELEVO/` dentro).
+2. `gh release create vX.Y.Z RELEVO-Windows.zip --repo DahlBrick/RelevoZIP6 --title ... --notes ...`
+3. El enlace `releases/latest/download/RELEVO-Windows.zip` apunta solo a la última; actualiza el tamaño en `juego.html`.
+
+## Rendimiento
+
+`src/shared/calidad.js` elige un perfil (`alta`, `media`, `baja`) según memoria, núcleos, pantalla, GPU por software y
+`prefers-reduced-motion`, y lo baja si los FPS caen por debajo de 28. Se puede forzar con `?calidad=baja` en la URL.
+En `baja`: pixelRatio 1, sin sombras, sin bloom ni contornos, menos partículas y texturas de 640 px. Si WebGL falla,
+la bitácora sigue como scroll 2D (`body.sin-3d`).
+
+- `python herramientas/imagenes.py`: pasa los JPG de `public/img` a WebP (1600 px y una versión `-640`).
+  Con `--nuevas` importa también las capturas de los puertos, los fotogramas de los vídeos y las miniaturas.
+- `node herramientas/modelos.mjs`: comprime los modelos (meshopt + texturas WebP de 512 px); los `.gltf` de
+  Quaternius pasan a `.glb`.
+- Los vídeos de YouTube se cargan solo al pulsar (fachada con póster, `youtube-nocookie.com`).
 
 ## Estructura
 

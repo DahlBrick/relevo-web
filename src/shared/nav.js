@@ -1,7 +1,7 @@
 // Barra de navegación común a todas las páginas, con menú desplegable en pantallas angostas.
 const ENLACES = [
   { id: 'inicio', texto: 'Inicio', href: './' },
-  { id: 'juego', texto: 'Juego', href: 'juego.html' },
+  { id: 'juego', texto: 'Jugar', href: 'juego.html', clase: 'nav__jugar' },
   { id: 'historia', texto: 'Historia', href: 'historia.html' },
   { id: 'comunidad', texto: 'Comunidad', href: 'comunidad.html' },
   { id: 'bitacora', texto: 'Bitácora', href: 'bitacora.html' },
@@ -9,7 +9,7 @@ const ENLACES = [
 
 export function montarNav(activa) {
   const nav = document.getElementById('nav');
-  const enlaces = ENLACES.map((e) => `<a href="${e.href}"${e.id === activa ? ' aria-current="page"' : ''}>${e.texto}</a>`).join('');
+  const enlaces = ENLACES.map((e) => `<a href="${e.href}"${e.clase ? ` class="${e.clase}"` : ''}${e.id === activa ? ' aria-current="page"' : ''}>${e.texto}</a>`).join('');
   nav.innerHTML = `
     <a class="nav__logo" href="./">RELEVO</a>
     <nav class="nav__links" aria-label="Principal">${enlaces}</nav>

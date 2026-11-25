@@ -25,7 +25,7 @@ export function crearLightbox({ alAbrir, alCerrar } = {}) {
     media.querySelector('video')?.pause();
     media.innerHTML = '';
     if (youtube) {
-      media.innerHTML = `<div class="lightbox__yt">${iframeYouTube(youtube)}</div>`;
+      media.innerHTML = `<div class="lightbox__yt">${iframeYouTube(youtube, { titulo: texto || undefined })}</div>`;
       pie.innerHTML = `${texto || ''} · <a href="https://youtu.be/${youtube}" target="_blank" rel="noopener">Ver en YouTube ↗</a>`;
       prev.hidden = next.hidden = serie.length < 2;
       return;
@@ -83,7 +83,7 @@ export function crearLightbox({ alAbrir, alCerrar } = {}) {
 export const TEASER_YT = 'z1q6cUyIgEI';
 
 /** iframe del reproductor de YouTube, en el dominio sin cookies hasta que se reproduce. */
-export function iframeYouTube(id, { autoplay = true } = {}) {
+export function iframeYouTube(id, { autoplay = true, titulo = 'Vídeo de RELEVO en YouTube' } = {}) {
   const params = new URLSearchParams({ autoplay: autoplay ? '1' : '0', rel: '0', modestbranding: '1', playsinline: '1' });
-  return `<iframe src="https://www.youtube-nocookie.com/embed/${id}?${params}" title="Teaser de RELEVO en YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+  return `<iframe src="https://www.youtube-nocookie.com/embed/${id}?${params}" title="${titulo}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
 }

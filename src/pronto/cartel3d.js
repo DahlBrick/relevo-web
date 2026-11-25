@@ -5,18 +5,20 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { cargarRobot } from '../bitacora/assets.js';
 import { crearNilo } from '../bitacora/nilo.js';
+import { CALIDAD, pixelRatio } from '../shared/calidad.js';
 
 // "COMING SOON" en 3D: letras de Lilita One extruidas con bisel sobre el cartel de brocha naranja,
 // Nilo (el robot del juego) de pie detrás saludando, luz de lava por un lado y de canal por el otro,
 // brasas que suben y todo inclinándose hacia el puntero.
 
 export async function montarCartel3D(contenedor) {
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  // Calidad según el equipo: sin antialias ni sombras suaves en los modestos.
+  const renderer = new THREE.WebGLRenderer({ antialias: CALIDAD.nivel === 'alta', alpha: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(pixelRatio());
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.enabled = CALIDAD.sombras;
+  renderer.shadowMap.type = CALIDAD.sombraSuave ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
   contenedor.append(renderer.domElement);
 
   const escena = new THREE.Scene();
@@ -71,7 +73,7 @@ export async function montarCartel3D(contenedor) {
   const fuente = new Font(datos);
   const matCara = new THREE.MeshStandardMaterial({ color: '#fff3e0', roughness: 0.35, metalness: 0.05, emissive: '#ffd9a0', emissiveIntensity: 0.12 });
   const matCanto = new THREE.MeshStandardMaterial({ color: '#8a2c0c', roughness: 0.45, metalness: 0.35 });
-  const texto = 'COMING SOON';
+  const texto = contenedor.dataset.texto || 'COMING SOON';
   const tam = 0.78;
   const letras = [];
   const grupoLetras = new THREE.Group();
@@ -114,7 +116,7 @@ export async function montarCartel3D(contenedor) {
   raiz.add(suelo);
 
   // ───────── Brasas y destellos ─────────
-  const n = 140;
+  const n = Math.round(140 * CALIDAD.particulas);
   const pos = new Float32Array(n * 3);
   const sem = new Float32Array(n);
   for (let i = 0; i < n; i++) {
@@ -190,7 +192,16 @@ export async function montarCartel3D(contenedor) {
 
   const reloj = new THREE.Clock();
   const entrada = performance.now();
-  renderer.setAnimationLoop(() => {
+  // Solo se dibuja mientras el cartel se ve: fuera de pantalla o con la pestaña oculta, en pausa.
+  let enPantalla = true;
+  const reanudar = () => renderer.setAnimationLoop(enPantalla && !document.hidden ? dibujar : null);
+  new IntersectionObserver(([e]) => {
+    enPantalla = e.isIntersecting;
+    reloj.getDelta();
+    reanudar();
+  }).observe(contenedor);
+  document.addEventListener('visibilitychange', reanudar);
+  function dibujar() {
     const dt = Math.min(reloj.getDelta(), 1 / 20);
     const t = reloj.elapsedTime;
     uTiempo.value = t;
@@ -215,7 +226,8 @@ export async function montarCartel3D(contenedor) {
     frente.intensity = 5.5 + Math.sin(t * 3) * 0.6;
     nilo.actualizar(dt, t);
     renderer.render(escena, camara);
-  });
+  }
+  reanudar();
   return { renderer };
 }
 

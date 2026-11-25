@@ -38,6 +38,12 @@ fachada?.addEventListener('click', () => {
   // La fachada evita cargar YouTube hasta que alguien pide verlo.
   fachada.parentElement.innerHTML = iframeYouTube(TEASER_YT);
 });
+// Gameplay y devlog: la misma fachada, el iframe solo se crea al pulsar.
+document.querySelectorAll('.video__fachada').forEach((b) =>
+  b.addEventListener('click', () => {
+    b.parentElement.innerHTML = iframeYouTube(b.dataset.yt, { titulo: b.dataset.titulo });
+  }),
+);
 
 // ───────── Relato por capas ─────────
 // Las capas son ilustraciones renderizadas con los modelos del juego (herramientas/capas.html), en
